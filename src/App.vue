@@ -1,35 +1,51 @@
 <template>
-  <header>
+  <header class="main-header">
     <ul class="header-list">
-      <li @click="currentFunctionality = 'converter'" :class="currentFunctionality === 'converter' ? 'selected' : ''">
+      <li
+        @click="currentFunctionality = 'converter'"
+        :class="currentFunctionality === 'converter' ? 'selected' : ''"
+      >
         Crypto Converter
       </li>
-      <li @click="currentFunctionality = 'wallet'" :class="currentFunctionality === 'wallet' ? 'selected' : ''">
+      <li
+        @click="currentFunctionality = 'wallet'"
+        :class="currentFunctionality === 'wallet' ? 'selected' : ''"
+      >
         Crypto Wallet
       </li>
     </ul>
   </header>
   <main>
-    <h1 v-if="currentFunctionality === 'converter'">Crypto Converter</h1>
+    <Converter v-if="currentFunctionality === 'converter'" />
     <h1 v-if="currentFunctionality === 'wallet'">Crypto Wallet</h1>
   </main>
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref } from "vue";
+import Converter from "./pages/CryptoConverter.vue";
 export default {
   name: "App",
-  components: {},
+  components: {
+    Converter,
+  },
   setup() {
-    let currentFunctionality = ref('converter');
+    let currentFunctionality = ref("converter");
 
-    return { currentFunctionality }
-  }
+    return { currentFunctionality };
+  },
 };
 </script>
 
 <style>
-html, body {
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600&display=swap");
+:root {
+  --main-yellow: rgb(209, 195, 0);
+  --main-dark: rgb(8, 8, 8);
+}
+
+html,
+body {
   padding: 0;
   margin: 0;
 }
@@ -41,16 +57,19 @@ html, body {
 }
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Poppins, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
 
-header {
+.main-header {
   padding: 15px;
   width: 100%;
-  background-color: rgb(0, 0, 0);
+  background-color: var(--main-dark);
+  height: 10vh;
+  display: flex;
+  align-items: center;
 }
 
 ul {
@@ -61,20 +80,33 @@ ul {
   display: inline;
   cursor: pointer;
   padding: 10px;
-  transition: .3s;
+  transition: 0.3s;
 }
 
-.header-list li:first-child {
+.header-list li {
   color: white;
 }
 
-.header-list li:not(:first-child) {
-  color: yellow;
+.header-list .selected {
+  transition: 0.5s;
+  background-color: var(--main-yellow);
+  color: white !important;
 }
 
-.header-list .selected {
-  transition: .5s;
-  background-color: rgb(165, 154, 0);
-  color: white !important;
+.td-img {
+  margin-right: 5px;
+  /* margin-bottom: 2px; */
+  border-radius: 100px;
+  /* vertical-align: middle; */
+}
+
+.td-div-img-name {
+  display: flex;
+  align-items: center;
+}
+
+.text-muted {
+  font-weight: 500;
+  color: rgb(134, 134, 134);
 }
 </style>
