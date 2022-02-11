@@ -8,7 +8,9 @@
     </main>
     <aside>
         <h4>Cryptocurrencies informations</h4>
-        <Table :tableHeaders="tableHeaders" :tableDatas="tableDatas"/>
+        <section>
+            <Table :tableHeaders="tableHeaders" :tableDatas="tableDatas"/>
+        </section>
     </aside>
 </template>
 
@@ -28,12 +30,22 @@ export default {
 
         let tableHeaders = ref([
             { headerName: 'Name', propertyName: 'name' },
-            { headerName: '24 %', propertyName: 'usd_percent_24' },
             { headerName: 'Price', propertyName: 'usd_price' },
+            { headerName: '24h %', propertyName: 'usd_percent_24h' },
+            { headerName: '7d %', propertyName: 'usd_percent_7d' },
+            { headerName: '30d %', propertyName: 'usd_percent_30d' },
             { headerName: 'MarketCap', propertyName: 'market_cap' },
+            { headerName: 'Volume 24h', propertyName: 'volume_24h' },
             { headerName: 'Last 7d', propertyName: 'coin_graph' },
         ])
 
+        let percentage_template = (data) => {
+            return `
+                <span class="${data < 0 ? 'negative-percent' : 'positive-percent'}">
+                    ${ data.replace('-', '') }
+                </span>
+            `
+        }
 
         onMounted(async () => {
             let { data } = await ConverterApi.getCryptos()
@@ -48,8 +60,11 @@ export default {
                             </div>
                         `,
                         usd_price: crypto.quote['USD'].price.toLocaleString('en-US', { style: 'currency', currency: 'USD' }), 
-                        usd_percent_24: crypto.quote['USD'].percent_change_24h.toFixed(2),
+                        usd_percent_24h: percentage_template(crypto.quote['USD'].percent_change_24h.toFixed(2)),
+                        usd_percent_7d: percentage_template(crypto.quote['USD'].percent_change_7d.toFixed(2)),
+                        usd_percent_30d: percentage_template(crypto.quote['USD'].percent_change_30d.toFixed(2)),
                         market_cap: crypto.quote['USD'].market_cap.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }),
+                        volume_24h: crypto.quote['USD'].volume_24h.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }),
                         coin_graph: `
                             <img class="td-graph" alt="7d-coin-graph" src="https://s3.coinmarketcap.com/generated/sparklines/web/7d/2781/${crypto.id}.svg">
                         `
@@ -81,11 +96,16 @@ main {
 aside {
     padding: 0 20px;
     max-width: 1200px;
-    width: 60%;
+    width: 100%;
     display: flex;
     justify-content: center;
     margin: 0 auto;
     flex-direction: column;
+}
+
+aside section {
+    overflow-x: auto;
+    width: 100%;
 }
 
 .converter-component {
@@ -109,21 +129,11 @@ a {
     color: black;
 }
 
-@media screen and (max-width: 992px) {
-    aside {
-        width: 70%;
-    }
-}
-
 @media screen and (max-width: 768px) {
     main {
         justify-content: start;
         height: inherit;
         padding-bottom: 30px;
-    }
-
-    aside {
-        width: 100%;
     }
 }
 </style>

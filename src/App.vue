@@ -1,5 +1,6 @@
 <template>
   <header class="main-header">
+    <img :src="require('./assets/logo.png')" alt="logo" width="175" class="logo">
     <ul class="header-list">
       <li
         @click="currentFunctionality = 'converter'"
@@ -67,13 +68,18 @@ body {
   padding: 15px;
   width: 100%;
   background-color: var(--main-dark);
-  height: 10vh;
   display: flex;
   align-items: center;
 }
 
+.logo {
+  margin-right: 15px;
+}
+
 ul {
   list-style: none;
+  width: 100%;
+  text-align: right;
 }
 
 .header-list li {
@@ -81,9 +87,6 @@ ul {
   cursor: pointer;
   padding: 10px;
   transition: 0.3s;
-}
-
-.header-list li {
   color: white;
 }
 
@@ -95,9 +98,7 @@ ul {
 
 .td-img {
   margin-right: 5px;
-  /* margin-bottom: 2px; */
   border-radius: 100px;
-  /* vertical-align: middle; */
 }
 
 .td-div-img-name {
@@ -108,5 +109,37 @@ ul {
 .text-muted {
   font-weight: 500;
   color: rgb(134, 134, 134);
+}
+
+.negative-percent {
+  color: rgb(243, 0, 0);
+}
+
+.positive-percent {
+  color: rgb(0, 238, 0);
+}
+
+.negative-percent::before {
+  content: url("https://img.icons8.com/material-sharp/13/ff0000/chevron-down.png");
+}
+
+.positive-percent::before {
+  content: url("https://img.icons8.com/material-sharp/13/00ff00/chevron-up.png");
+}
+
+@media screen and (max-width: 992px) {
+  .main-header {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .main-header img {
+    margin: 0 auto;
+  }
+
+  .main-header ul {
+    text-align: left;
+    margin-top: 20px;
+  }
 }
 </style>

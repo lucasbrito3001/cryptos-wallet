@@ -34,25 +34,42 @@ export default {
 <style scoped>
 table {
     width: 100%;
+    border-collapse: collapse;
 }
 
-table th {
+table thead {
+    border-bottom: 1px solid rgb(241, 241, 241);
+}
+
+table thead tr th {
     text-align: left;
+    background-color: white;
 }
 
 table th:not(:first-child), table tbody tr td:not(:first-child)  {
     text-align: right;
 }
 
-table tbody tr {
-    border-bottom: 1px solid gray;
+table tbody tr:not(:last-child) {
+    border-bottom: 1px solid rgb(241, 241, 241);
 }
 
 table tbody tr td {
-    padding: 18px 0;
-    width: 25%;
+    min-width: 80px;
+    padding: 18px 0px 18px 10px;
     font-weight: 500;
     color: black;
     font-size: 15px;
+    background-color: white;
+}
+
+table thead tr th:first-child {
+    position: sticky;
+    left: 0;
+}
+
+table tbody tr td:first-child {
+    position: sticky;
+    left: 0;
 }
 </style>
