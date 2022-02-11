@@ -48,6 +48,7 @@ export default {
         }
 
         onMounted(async () => {
+            document.title = 'CryptoService | Cryptos Converter'
             let { data } = await ConverterApi.getCryptos()
             if(data.status === 200) {
                 cryptos.value = data.data;

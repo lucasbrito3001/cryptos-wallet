@@ -44,6 +44,7 @@ table thead {
 table thead tr th {
     text-align: left;
     background-color: white;
+    font-weight: 500;
 }
 
 table th:not(:first-child), table tbody tr td:not(:first-child)  {
@@ -57,9 +58,9 @@ table tbody tr:not(:last-child) {
 table tbody tr td {
     min-width: 80px;
     padding: 18px 0px 18px 10px;
-    font-weight: 500;
+    font-weight: 400;
     color: black;
-    font-size: 15px;
+    font-size: 14px;
     background-color: white;
 }
 

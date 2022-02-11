@@ -1,6 +1,6 @@
 <template>
   <header class="main-header">
-    <img :src="require('./assets/logo.png')" alt="logo" width="175" class="logo">
+    <img :src="require('./assets/white-logo.png')" alt="logo" width="175" class="logo">
     <ul class="header-list">
       <li
         @click="currentFunctionality = 'converter'"
