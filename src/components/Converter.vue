@@ -1,81 +1,86 @@
 <template>
     <div class="container">
-        <label for="select-crypto-1">From:</label>
-        <div>
+        <label for="select-crypto-1">From</label>
+        <div class="group-first-crypto">
             <div class="container-inputs">
                 <div
                     class="converter-select"
-                    @click="showSelectCrypto1 = !showSelectCrypto1"
+                    @click="showSelectCrypto1 = !showSelectCrypto1, showSelectCrypto2 = false"
                 >
-                    {{ selectedCrypto1 }}
+                    <img
+                        class="td-img"
+                        :src="`https://s2.coinmarketcap.com/static/img/coins/64x64/${selectedCrypto1}.png`"
+                        width="24"
+                    />
+                    <b>{{ selectedCrypto1Symbol }}</b>
                 </div>
+                <img width="23" height="13" :src="`https://img.icons8.com/material-sharp/13/aaaaaa/${showSelectCrypto1 ? 'chevron-up' : 'chevron-down'}.png`" style="padding-right: 10px">
+                <div class="div-border"></div>
                 <input
                     v-model="crypto1Value"
-                    type="search"
+                    type="number"
                     class="converter-input"
                     @input="convertCryptos('crypto1')"
+                    placeholder="Insert the value that you want to convert"
                 />
             </div>
-            <div class="select-cryptos" v-if="showSelectCrypto1">
-                <input type="text" />
-                <hr />
-                <ul>
-                    <li
-                        class="select-list-item"
-                        v-for="(crypto, idx) in cryptos"
-                        :key="idx"
-                    >
-                        <img
-                            class="td-img"
-                            :src="`https://s2.coinmarketcap.com/static/img/coins/64x64/${crypto.id}.png`"
-                            width="24"
-                        />
-                        {{ crypto.symbol }}
-                    </li>
-                </ul>
-            </div>
+            <SearchSelect 
+                v-if="showSelectCrypto1" 
+                :cryptos="cryptos" 
+                @selectedCrypto="changeSelectedCrypto($event, 1)"
+                @clickedOutOfTheComponent="hideSearchSelect"
+            />
         </div>
 
-        <label for="select-crypto-2">To:</label>
-        <div>
+        <label for="select-crypto-2">To</label>
+        <div class="group-second-crypto">
             <div class="container-inputs">
                 <div
                     class="converter-select"
-                    @click="showSelectCrypto2 = !showSelectCrypto2"
+                    @click="showSelectCrypto2 = !showSelectCrypto2, showSelectCrypto1 = false"
                 >
-                    {{ selectedCrypto2 }}
+                    <img
+                        class="td-img"
+                        :src="`https://s2.coinmarketcap.com/static/img/coins/64x64/${selectedCrypto2}.png`"
+                        width="24"
+                    />
+                    <b>{{ selectedCrypto2Symbol }}</b>
                 </div>
+                <img width="23" height="13" :src="`https://img.icons8.com/material-sharp/13/aaaaaa/${showSelectCrypto2 ? 'chevron-up' : 'chevron-down'}.png`" style="padding-right: 10px">
+                <div class="div-border"></div>
                 <input
                     v-model="crypto2Value"
-                    type="search"
+                    type="number"
                     class="converter-input"
-                    @input="convertCryptos('crypto1')"
+                    @input="convertCryptos('crypto2')"
+                    placeholder="Insert the value that you want to convert"
                 />
             </div>
-            <div class="select-cryptos" v-if="showSelectCrypto2">
-                <input type="text" />
-                <hr />
-                <ul>
-                    <li
-                        class="select-list-item"
-                        v-for="(crypto, idx) in cryptos"
-                        :key="idx"
-                    >
-                        <img
-                            class="td-img"
-                            :src="`https://s2.coinmarketcap.com/static/img/coins/64x64/${crypto.id}.png`"
-                            width="24"
-                        />
-                        {{ crypto.symbol }}
-                    </li>
-                </ul>
-            </div>
+            <SearchSelect 
+                v-if="showSelectCrypto2" 
+                :cryptos="cryptos" 
+                @selectedCrypto="changeSelectedCrypto($event, 2)"
+                @clickedOutOfTheComponent="hideSearchSelect"
+            />
         </div>
+        <small v-if="crypto1Price && crypto2Price" class="t-end text-muted mt-1">
+            {{ `
+                1 ${selectedCrypto1Symbol}
+                &cong;
+                ${selectedCryptosRatio(crypto1Price, crypto2Price)} ${selectedCrypto2Symbol}
+            `}} <br>
+            {{ `
+                1 ${selectedCrypto2Symbol}
+                &cong;
+                ${selectedCryptosRatio(crypto2Price, crypto1Price)} ${selectedCrypto1Symbol}
+            `}}
+        </small>
     </div>
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, computed, onMounted } from "vue";
+import SearchSelect from './SearchSelect.vue'
 export default {
     props: {
         initSelected1: {
@@ -84,52 +89,112 @@ export default {
         },
         initSelected2: {
             type: Number,
-            default: 1,
+            default: 825,
         },
         cryptos: {
             type: Array,
-            default: () => [],
         },
     },
+    components: {
+        SearchSelect
+    },
     setup(props) {
+        // States
         let selectedCrypto1 = ref(props.initSelected1);
         let selectedCrypto2 = ref(props.initSelected2);
 
         let crypto1Value = ref(null);
         let crypto2Value = ref(null);
 
+        let crypto1Price = ref(null);
+        let crypto2Price = ref(null);
+
         let showSelectCrypto1 = ref(false);
         let showSelectCrypto2 = ref(false);
 
-        function convertCryptos(crypto) {
-            const price1 = props.cryptos.find(
+        // Mounted
+        onMounted(() => {
+            convertCryptos('crypto1')
+            findCryptosPrice()
+        })
+
+        // Computed properties
+        let selectedCrypto1Symbol = computed(() => {
+            return props.cryptos.find(crypto => crypto.id === selectedCrypto1.value).symbol;
+        });
+
+        let selectedCrypto2Symbol = computed(() => {
+            return props.cryptos.find(crypto => crypto.id === selectedCrypto2.value).symbol;
+        });
+
+        // Functions
+        function selectedCryptosRatio (dividend, divisor) {
+            return (dividend / divisor).toFixed(8)
+        };
+
+        function changeSelectedCrypto (crypto, order) {
+            console.log(crypto)
+            order === 1 ? selectedCrypto1.value = crypto.id : selectedCrypto2.value = crypto.id;
+
+            crypto1Value.value = null;
+            crypto2Value.value = null;
+
+            showSelectCrypto1.value = false;
+            showSelectCrypto2.value = false;
+
+            findCryptosPrice();
+        };
+
+        function findCryptosPrice () {
+            crypto1Price.value = props.cryptos.find(
                 (crypto) => crypto.id === selectedCrypto1.value
             ).quote["USD"].price;
-            const price2 = props.cryptos.find(
+            crypto2Price.value = props.cryptos.find(
                 (crypto) => crypto.id === selectedCrypto2.value
             ).quote["USD"].price;
+        }
 
-            const ratio = price1 / price2;
+        function convertCryptos(crypto) {
+            findCryptosPrice()
 
+            const ratio = crypto1Price.value / crypto2Price.value;
+            let convertedValue = null;
+            
             if (crypto === "crypto1") {
-                crypto2Value.value = (
-                    crypto1Value.value * ratio
-                ).toLocaleString("pt-BR", { currency: "BRL" });
+                convertedValue = ((crypto1Value.value) * ratio).toFixed(8)
+                crypto2Value.value = convertedValue > 0 ? convertedValue : null;
             } else {
-                crypto1Value.value = (
-                    crypto2Value.value / ratio
-                ).toLocaleString("pt-BR", { currency: "BRL" });
+                convertedValue = ((crypto2Value.value) / ratio).toFixed(8)
+                crypto1Value.value = convertedValue > 0 ? convertedValue : null;
             }
         }
 
+        function hideSearchSelect() {
+            showSelectCrypto1.value = false;
+            showSelectCrypto2.value = false;
+        }
+
+        // Return things that I need to use in the client side
         return {
+            // States
             selectedCrypto1,
             selectedCrypto2,
             crypto1Value,
             crypto2Value,
-            convertCryptos,
             showSelectCrypto1,
             showSelectCrypto2,
+            crypto1Price,
+            crypto2Price,
+
+            // Computeds
+            selectedCrypto1Symbol,
+            selectedCrypto2Symbol,
+
+            // Functions
+            convertCryptos,
+            selectedCryptosRatio,
+            changeSelectedCrypto,
+            hideSearchSelect
         };
     },
 };
@@ -151,22 +216,27 @@ export default {
     position: relative;
 }
 
-.container > div:first-child {
-    margin-bottom: 20px;
+.group-first-crypto {
+    margin-bottom: 20px !important;
 }
 
 .container-inputs {
     display: flex;
+    align-items: center;
     margin: 0px;
+    background-color: rgb(236, 236, 236);
+    border-radius: 5px;
+    box-shadow: 7px 6px 20px -12px rgba(191,191,191,0.64);
 }
 
 .converter-input,
 .converter-select {
-    font-size: 16px;
+    font-size: 15.5px;
     font-weight: 100;
     border: none;
     padding: 15px 5px;
-    background: rgb(241, 241, 240);
+    background: rgb(236, 236, 236);
+    height: 50px;
 }
 
 .converter-input {
@@ -174,6 +244,7 @@ export default {
     padding: 5px 30px;
     border-radius: 0px 8px 8px 0px;
     text-align: left;
+    position: relative;
 }
 
 input:focus,
@@ -183,9 +254,18 @@ select:focus {
 
 .converter-select {
     border-radius: 8px 0px 0px 8px;
-    border-right: 1px solid rgb(202, 202, 202);
     width: 20%;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.div-border {
+    height: 35px;
+    width: 1px;
+    border-left: 1px solid rgb(214, 214, 214);
+    vertical-align: center;
+    position: relative;
 }
 
 .select-cryptos {
@@ -200,7 +280,7 @@ select:focus {
 }
 
 .select-cryptos ul {
-    height: 300px;
+    height: 220px;
     overflow-y: scroll;
     text-align: left;
 }
@@ -226,6 +306,11 @@ select:focus {
 
 hr {
     border: 1px solid rgb(223, 223, 223);
+}
+
+.converter-input::placeholder {
+    font-size: 12px;
+    color: #afafaf;
 }
 
 @media screen and (max-width: 992px) {

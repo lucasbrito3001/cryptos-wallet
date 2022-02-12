@@ -2,9 +2,7 @@
   <table>
     <thead>
       <tr>
-        <th v-for="(header, idxHeader) in tableHeaders" :key="idxHeader">
-          {{ header.headerName }}
-        </th>
+        <th v-for="(header, idxHeader) in tableHeaders" :key="idxHeader" v-html="header.headerName"></th>
       </tr>
     </thead>
     <tbody>

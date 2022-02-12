@@ -40,6 +40,8 @@ export default {
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600&display=swap");
+@import "./assets/framework.css";
+
 :root {
   --main-yellow: rgb(209, 195, 0);
   --main-dark: rgb(8, 8, 8);
@@ -104,11 +106,6 @@ ul {
 .td-div-img-name {
   display: flex;
   align-items: center;
-}
-
-.text-muted {
-  font-weight: 500;
-  color: rgb(134, 134, 134);
 }
 
 .negative-percent {
