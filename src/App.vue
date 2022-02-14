@@ -44,7 +44,9 @@ export default {
 
 :root {
   --main-yellow: rgb(209, 195, 0);
+  --secondary-yellow: rgb(255, 248, 152);
   --main-dark: rgb(8, 8, 8);
+  --secondary-dark: rgb(131, 131, 131);
 }
 
 html,

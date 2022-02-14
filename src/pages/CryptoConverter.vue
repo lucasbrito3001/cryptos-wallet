@@ -17,17 +17,24 @@
             class="converter-component"
             v-if="cryptos.length > 0"
         />
+        <Spinner v-else/>
     </main>
     <aside>
         <h4>Cryptocurrencies informations</h4>
         <section>
-            <Table :tableHeaders="tableHeaders" :tableDatas="tableDatas" />
+            <Table 
+                v-if="tableDatas.length > 0"
+                :tableHeaders="tableHeaders" 
+                :tableDatas="tableDatas"
+                :quantityByPage="15"
+            />
         </section>
     </aside>
 </template>
 
 <script>
 import Converter from "../components/Converter.vue";
+import Spinner from "../components/Spinner.vue"
 import Table from "../components/GeneralTable.vue";
 // import MockCryptos from "../services/mockCryptos";
 import ConverterApi from "../services/converter";
@@ -36,6 +43,7 @@ export default {
     components: {
         Converter,
         Table,
+        Spinner
     },
     setup() {
         // let mockCryptos = false;

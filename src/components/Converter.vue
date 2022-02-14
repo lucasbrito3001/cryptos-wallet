@@ -1,80 +1,81 @@
 <template>
     <div class="container">
-        <label for="select-crypto-1">From</label>
-        <div class="group-first-crypto">
-            <div class="container-inputs">
-                <div
-                    class="converter-select"
-                    @click="showSelectCrypto1 = !showSelectCrypto1, showSelectCrypto2 = false"
-                >
-                    <img
-                        class="td-img"
-                        :src="`https://s2.coinmarketcap.com/static/img/coins/64x64/${selectedCrypto1}.png`"
-                        width="24"
+        <main v-if="cryptos.length > 0">
+            <label for="select-crypto-1">From</label>
+            <div class="group-first-crypto">
+                <div class="container-inputs">
+                    <div
+                        class="converter-select"
+                        @click="showSelectCrypto1 = !showSelectCrypto1, showSelectCrypto2 = false"
+                    >
+                        <img
+                            class="td-img"
+                            :src="`https://s2.coinmarketcap.com/static/img/coins/64x64/${selectedCrypto1}.png`"
+                            width="24"
+                        />
+                        <b>{{ selectedCrypto1Symbol }}</b>
+                    </div>
+                    <img width="23" height="13" :src="`https://img.icons8.com/material-sharp/13/aaaaaa/${showSelectCrypto1 ? 'chevron-up' : 'chevron-down'}.png`" style="padding-right: 10px">
+                    <div class="div-border"></div>
+                    <input
+                        v-model="crypto1Value"
+                        type="number"
+                        class="converter-input"
+                        @input="convertCryptos('crypto1')"
+                        placeholder="Insert the value that you want to convert"
                     />
-                    <b>{{ selectedCrypto1Symbol }}</b>
                 </div>
-                <img width="23" height="13" :src="`https://img.icons8.com/material-sharp/13/aaaaaa/${showSelectCrypto1 ? 'chevron-up' : 'chevron-down'}.png`" style="padding-right: 10px">
-                <div class="div-border"></div>
-                <input
-                    v-model="crypto1Value"
-                    type="number"
-                    class="converter-input"
-                    @input="convertCryptos('crypto1')"
-                    placeholder="Insert the value that you want to convert"
+                <SearchSelect
+                    v-if="showSelectCrypto1"
+                    :cryptos="cryptos"
+                    @selectedCrypto="changeSelectedCrypto($event, 1)"
+                    @clickedOutOfTheComponent="hideSearchSelect"
                 />
             </div>
-            <SearchSelect 
-                v-if="showSelectCrypto1" 
-                :cryptos="cryptos" 
-                @selectedCrypto="changeSelectedCrypto($event, 1)"
-                @clickedOutOfTheComponent="hideSearchSelect"
-            />
-        </div>
-
-        <label for="select-crypto-2">To</label>
-        <div class="group-second-crypto">
-            <div class="container-inputs">
-                <div
-                    class="converter-select"
-                    @click="showSelectCrypto2 = !showSelectCrypto2, showSelectCrypto1 = false"
-                >
-                    <img
-                        class="td-img"
-                        :src="`https://s2.coinmarketcap.com/static/img/coins/64x64/${selectedCrypto2}.png`"
-                        width="24"
+            <label for="select-crypto-2">To</label>
+            <div class="group-second-crypto">
+                <div class="container-inputs">
+                    <div
+                        class="converter-select"
+                        @click="showSelectCrypto2 = !showSelectCrypto2, showSelectCrypto1 = false"
+                    >
+                        <img
+                            class="td-img"
+                            :src="`https://s2.coinmarketcap.com/static/img/coins/64x64/${selectedCrypto2}.png`"
+                            width="24"
+                        />
+                        <b>{{ selectedCrypto2Symbol }}</b>
+                    </div>
+                    <img width="23" height="13" :src="`https://img.icons8.com/material-sharp/13/aaaaaa/${showSelectCrypto2 ? 'chevron-up' : 'chevron-down'}.png`" style="padding-right: 10px">
+                    <div class="div-border"></div>
+                    <input
+                        v-model="crypto2Value"
+                        type="number"
+                        class="converter-input"
+                        @input="convertCryptos('crypto2')"
+                        placeholder="Insert the value that you want to convert"
                     />
-                    <b>{{ selectedCrypto2Symbol }}</b>
                 </div>
-                <img width="23" height="13" :src="`https://img.icons8.com/material-sharp/13/aaaaaa/${showSelectCrypto2 ? 'chevron-up' : 'chevron-down'}.png`" style="padding-right: 10px">
-                <div class="div-border"></div>
-                <input
-                    v-model="crypto2Value"
-                    type="number"
-                    class="converter-input"
-                    @input="convertCryptos('crypto2')"
-                    placeholder="Insert the value that you want to convert"
+                <SearchSelect
+                    v-if="showSelectCrypto2"
+                    :cryptos="cryptos"
+                    @selectedCrypto="changeSelectedCrypto($event, 2)"
+                    @clickedOutOfTheComponent="hideSearchSelect"
                 />
             </div>
-            <SearchSelect 
-                v-if="showSelectCrypto2" 
-                :cryptos="cryptos" 
-                @selectedCrypto="changeSelectedCrypto($event, 2)"
-                @clickedOutOfTheComponent="hideSearchSelect"
-            />
-        </div>
-        <small v-if="crypto1Price && crypto2Price" class="t-end text-muted mt-1">
-            {{ `
-                1 ${selectedCrypto1Symbol}
-                &cong;
-                ${selectedCryptosRatio(crypto1Price, crypto2Price)} ${selectedCrypto2Symbol}
-            `}} <br>
-            {{ `
-                1 ${selectedCrypto2Symbol}
-                &cong;
-                ${selectedCryptosRatio(crypto2Price, crypto1Price)} ${selectedCrypto1Symbol}
-            `}}
-        </small>
+            <small v-if="crypto1Price && crypto2Price" class="t-end text-muted mt-1 small-infos">
+                {{ `
+                    1 ${selectedCrypto1Symbol}
+                    &cong;
+                    ${selectedCryptosRatio(crypto1Price, crypto2Price)} ${selectedCrypto2Symbol}
+                `}} <br>
+                {{ `
+                    1 ${selectedCrypto2Symbol}
+                    &cong;
+                    ${selectedCryptosRatio(crypto2Price, crypto1Price)} ${selectedCrypto1Symbol}
+                `}}
+            </small>
+        </main>
     </div>
 </template>
 
@@ -311,6 +312,11 @@ hr {
 .converter-input::placeholder {
     font-size: 12px;
     color: #afafaf;
+}
+
+.small-infos {
+    width: 100%;
+    display: block;
 }
 
 @media screen and (max-width: 992px) {
