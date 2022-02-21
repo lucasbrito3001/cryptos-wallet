@@ -108,6 +108,7 @@ table tbody tr td {
   color: black;
   font-size: 14px;
   background-color: white;
+  height: 91px;
 }
 
 table thead tr th:first-child {

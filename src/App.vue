@@ -1,40 +1,28 @@
 <template>
-  <header class="main-header">
-    <img :src="require('./assets/white-logo.png')" alt="logo" width="175" class="logo">
-    <ul class="header-list">
-      <li
-        @click="currentFunctionality = 'converter'"
-        :class="currentFunctionality === 'converter' ? 'selected' : ''"
-      >
-        Crypto Converter
-      </li>
-      <li
-        @click="currentFunctionality = 'wallet'"
-        :class="currentFunctionality === 'wallet' ? 'selected' : ''"
-      >
-        Crypto Wallet
-      </li>
-    </ul>
-  </header>
+  <nav>
+    <Navbar />
+  </nav>
   <main>
     <Converter v-if="currentFunctionality === 'converter'" />
-    <h1 v-if="currentFunctionality === 'wallet'">Crypto Wallet</h1>
+    <Wallet v-if="currentFunctionality === 'wallet'" />
   </main>
 </template>
 
 <script>
 import { ref } from "vue";
+import Navbar from "./components/Navbar.vue";
 import Converter from "./pages/CryptoConverter.vue";
+import Wallet from "./pages/CryptoWallet.vue";
 export default {
   name: "App",
   components: {
+    Navbar,
     Converter,
+    Wallet
   },
   setup() {
-    let currentFunctionality = ref("converter");
-
-    return { currentFunctionality };
-  },
+    let currentFunctionality = ref(null)
+  }
 };
 </script>
 
@@ -66,38 +54,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-}
-
-.main-header {
-  padding: 15px;
-  width: 100%;
-  background-color: var(--main-dark);
-  display: flex;
-  align-items: center;
-}
-
-.logo {
-  margin-right: 15px;
-}
-
-ul {
-  list-style: none;
-  width: 100%;
-  text-align: right;
-}
-
-.header-list li {
-  display: inline;
-  cursor: pointer;
-  padding: 10px;
-  transition: 0.3s;
-  color: white;
-}
-
-.header-list .selected {
-  transition: 0.5s;
-  background-color: var(--main-yellow);
-  color: white !important;
 }
 
 .td-img {
