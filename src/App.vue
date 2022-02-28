@@ -1,34 +1,48 @@
 <template>
   <header class="main-header">
-    <img :src="require('./assets/logo.png')" alt="logo" width="175" class="logo">
     <ul class="header-list">
+      <li>
+        <div class="navbar-img"><img :src="require(`./assets/btc_logo.png`)" alt="logo" width="36" class="logo"></div>
+        <p>CryptoService</p>
+      </li>
       <li
         @click="currentFunctionality = 'converter'"
-        :class="currentFunctionality === 'converter' ? 'selected' : ''"
+        :class="currentFunctionality === 'converter' ? '' : ''"
       >
-        Crypto Converter
+        <div class="navbar-img"><img src="https://img.icons8.com/windows/28/ffffff/currency-exchange.png"/></div>
+        <p>Converter</p>
       </li>
       <li
         @click="currentFunctionality = 'wallet'"
-        :class="currentFunctionality === 'wallet' ? 'selected' : ''"
+        :class="currentFunctionality === 'wallet' ? '' : ''"
       >
-        Crypto Wallet
+        <div class="navbar-img"><img src="https://img.icons8.com/ios-filled/28/ffffff/wallet--v1.png"/></div>
+        <p>Wallet</p>
+      </li>
+      <li
+        @click="currentFunctionality = 'wallet'"
+        :class="currentFunctionality === 'wallet' ? '' : ''"
+      >
+        <div class="navbar-img"><img src="https://img.icons8.com/ios-glyphs/32/ffffff/github.png"/></div>
+        <p>Lucas de Brito</p>
       </li>
     </ul>
   </header>
-  <main>
+  <main class="app-main">
     <Converter v-if="currentFunctionality === 'converter'" />
-    <h1 v-if="currentFunctionality === 'wallet'">Crypto Wallet</h1>
+    <Wallet v-if="currentFunctionality === 'wallet'"/>
   </main>
 </template>
 
 <script>
 import { ref } from "vue";
 import Converter from "./pages/CryptoConverter.vue";
+import Wallet from "./pages/CryptoWallet.vue";
 export default {
   name: "App",
   components: {
     Converter,
+    Wallet
   },
   setup() {
     let currentFunctionality = ref("converter");
@@ -40,9 +54,13 @@ export default {
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600&display=swap");
+@import "./assets/framework.css";
+
 :root {
   --main-yellow: rgb(209, 195, 0);
+  --secondary-yellow: rgb(255, 248, 152);
   --main-dark: rgb(8, 8, 8);
+  --secondary-dark: rgb(131, 131, 131);
 }
 
 html,
@@ -65,15 +83,27 @@ body {
 }
 
 .main-header {
-  padding: 15px;
-  width: 100%;
+  padding: 15px 5px;
+  height: 100vh;
+  width: 75px;
   background-color: var(--main-dark);
   display: flex;
+  flex-direction: column;
+  top: 0;
+  left: 0;
   align-items: center;
+  position: fixed;
+  transition: .5s;
+  z-index: 100;
 }
 
-.logo {
-  margin-right: 15px;
+.main-header:hover {
+  width: 200px;
+}
+
+.app-main {
+  width: calc(100% - 75px);
+  margin-left: 75px;
 }
 
 ul {
@@ -82,12 +112,38 @@ ul {
   text-align: right;
 }
 
+.header-list {
+  text-align: center;
+  position: relative;
+  height: 100%;
+  overflow-x: hidden;
+}
+
 .header-list li {
-  display: inline;
   cursor: pointer;
-  padding: 10px;
   transition: 0.3s;
   color: white;
+  width: 190px;
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.header-list li:first-child {
+  margin-bottom: 20px;
+}
+
+.header-list li .navbar-img {
+  width: 65px;
+}
+
+.header-list li:last-child {
+  bottom: 0;
+  position: absolute;
+}
+
+.header-list li img {
+  vertical-align: middle;
 }
 
 .header-list .selected {
@@ -104,11 +160,6 @@ ul {
 .td-div-img-name {
   display: flex;
   align-items: center;
-}
-
-.text-muted {
-  font-weight: 500;
-  color: rgb(134, 134, 134);
 }
 
 .negative-percent {
