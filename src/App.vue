@@ -1,5 +1,5 @@
 <template>
-  <header class="main-header">
+  <!-- <header class="main-header">
     <ul class="header-list">
       <li>
         <div class="navbar-img"><img :src="require(`./assets/btc_logo.png`)" alt="logo" width="36" class="logo"></div>
@@ -27,7 +27,7 @@
         <p>Lucas de Brito</p>
       </li>
     </ul>
-  </header>
+  </header> -->
   <main class="app-main">
     <Converter v-if="currentFunctionality === 'converter'" />
     <Wallet v-if="currentFunctionality === 'wallet'"/>
@@ -102,8 +102,9 @@ body {
 }
 
 .app-main {
-  width: calc(100% - 75px);
-  margin-left: 75px;
+  /* width: calc(100% - 75px); */
+  width: 100%;
+  /* margin-left: 75px; */
 }
 
 ul {

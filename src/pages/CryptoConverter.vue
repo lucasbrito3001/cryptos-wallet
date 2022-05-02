@@ -26,7 +26,7 @@
                 v-if="tableDatas.length > 0"
                 :tableHeaders="tableHeaders" 
                 :tableDatas="tableDatas"
-                :quantityByPage="15"
+                :quantityByPage="100"
             />
         </section>
     </aside>
