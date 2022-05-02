@@ -71,6 +71,7 @@ export default {
     padding: 10px;
     box-shadow: -1px 0px 15px 3px rgba(0, 0, 0, 0.23);
     border-radius: 5px;
+    z-index: 1000;
 }
 
 .select-cryptos ul {

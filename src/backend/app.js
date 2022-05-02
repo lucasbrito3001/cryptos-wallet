@@ -2,7 +2,6 @@ const axios = require('axios');
 const dotenv = require('dotenv');
 const express = require('express');
 const cors = require('cors');
-const PORT = 3000;
 
 const app = express();
 app.use(cors())
@@ -11,6 +10,8 @@ dotenv.config()
 const header = {
     "X-CMC_PRO_API_KEY": process.env.CMKTC_KEY
 };
+
+const PORT = process.env.PORT || 3001;
 
 app.get('/', (req, res) => {
     res.send('Hello World!')
