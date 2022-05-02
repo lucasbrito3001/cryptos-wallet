@@ -1,5 +1,5 @@
 <template>
-  <header class="main-header">
+  <!-- <header class="main-header">
     <ul class="header-list">
       <li>
         <div class="li-content">
@@ -40,7 +40,7 @@
         </a>
       </li>
     </ul>
-  </header>
+  </header> -->
   <main class="app-main">
     <Converter v-if="currentFunctionality === 'converter'" />
     <Wallet v-if="currentFunctionality === 'wallet'"/>
@@ -119,9 +119,10 @@ body {
   padding-right: 23.5px;
 }
 
-.app-main, .footer {
-  width: calc(100% - 75px);
-  margin-left: 75px;
+.app-main {
+  /* width: calc(100% - 75px); */
+  width: 100%;
+  /* margin-left: 75px; */
 }
 
 ul {

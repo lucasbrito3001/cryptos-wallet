@@ -19,7 +19,7 @@
       </tr>
     </tbody>
   </table>
-  <nav class="paginate">
+  <!-- <nav class="paginate">
     <ul>
       <li class="prev paginate-indicators" @click="currentPage !== 0 ? currentPage-- : ''">&lt;</li>
       <li 
@@ -33,11 +33,11 @@
       </li>
       <li class="next paginate-indicators" @click="currentPage !== filteredTableDatasByPage.length - 1 ? currentPage++ : ''">&gt;</li>
     </ul>
-  </nav>
+  </nav> -->
 </template>
 
 <script>
-import { onMounted, ref, computed } from 'vue';
+import { onMounted, ref } from 'vue';
 export default {
   props: {
     tableHeaders: {
@@ -113,11 +113,13 @@ table tbody tr td {
 table thead tr th:first-child {
   position: sticky;
   left: 0;
+  background-color: white;
 }
 
 table tbody tr td:first-child {
   position: sticky;
   left: 0;
+  background-color: white;
 }
 
 .paginate {
