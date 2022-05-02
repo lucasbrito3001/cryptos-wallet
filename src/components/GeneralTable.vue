@@ -113,14 +113,12 @@ table tbody tr td {
 table thead tr th:first-child {
   position: sticky;
   left: 0;
-  z-index: 100;
   background-color: white;
 }
 
 table tbody tr td:first-child {
   position: sticky;
   left: 0;
-  z-index: 100;
   background-color: white;
 }
 
