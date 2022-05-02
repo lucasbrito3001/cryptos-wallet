@@ -46,7 +46,8 @@
     <Wallet v-if="currentFunctionality === 'wallet'"/>
   </main>
   <footer class="footer">
-    teste footer
+    Developed by Lucas de Brito <br>
+    <a href="https://lucasdbrito.com" target="blank">https://lucasdbrito.com</a>
   </footer>
 </template>
 
@@ -123,6 +124,7 @@ body {
   /* width: calc(100% - 75px); */
   width: 100%;
   /* margin-left: 75px; */
+  min-height: 100vh;
 }
 
 ul {
@@ -208,10 +210,17 @@ ul {
 }
 
 .footer {
-  height: 300px;
   background-color: var(--light-dark);
   margin-top: 15px;
+  padding: 5px;
   clear: both;
+  text-align: center;
+  color: rgb(255, 255, 255);
+  font-size: 14px;
+}
+
+.footer a {
+  color: var(--main-yellow);
 }
 
 @media screen and (max-width: 992px) {
@@ -288,10 +297,6 @@ ul {
   .app-main, .footer {
     width: 100%;
     margin-left: 0px;
-  }
-
-  .footer {
-    margin: 15px 0px 74px 0px;
   }
 }
 </style>
