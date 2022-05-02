@@ -2,29 +2,42 @@
   <!-- <header class="main-header">
     <ul class="header-list">
       <li>
-        <div class="navbar-img"><img :src="require(`./assets/btc_logo.png`)" alt="logo" width="36" class="logo"></div>
-        <p>CryptoService</p>
+        <div class="li-content">
+          <div class="navbar-img"><img :src="require(`./assets/btc_logo.png`)" alt="logo" width="36" class="logo"></div>
+          <p>CryptoService</p>
+        </div>
       </li>
       <li
         @click="currentFunctionality = 'converter'"
         :class="currentFunctionality === 'converter' ? '' : ''"
       >
-        <div class="navbar-img"><img src="https://img.icons8.com/windows/28/ffffff/currency-exchange.png"/></div>
-        <p>Converter</p>
+        <div class="li-content">
+          <div class="navbar-img"><img src="https://img.icons8.com/windows/28/ffffff/currency-exchange.png"/></div>
+          <span>Converter</span>
+        </div>
       </li>
       <li
         @click="currentFunctionality = 'wallet'"
         :class="currentFunctionality === 'wallet' ? '' : ''"
       >
-        <div class="navbar-img"><img src="https://img.icons8.com/ios-filled/28/ffffff/wallet--v1.png"/></div>
-        <p>Wallet</p>
+        <div class="li-content">
+          <div class="navbar-img"><img src="https://img.icons8.com/ios-filled/28/ffffff/wallet--v1.png"/></div>
+          <span>Wallet</span>
+        </div>
       </li>
-      <li
-        @click="currentFunctionality = 'wallet'"
-        :class="currentFunctionality === 'wallet' ? '' : ''"
-      >
-        <div class="navbar-img"><img src="https://img.icons8.com/ios-glyphs/32/ffffff/github.png"/></div>
-        <p>Lucas de Brito</p>
+      <li>
+        <div class="li-content">
+          <div class="navbar-img"><img src="https://img.icons8.com/external-smashingstocks-glyph-smashing-stocks/28/ffffff/external-preferences-maps-and-navigations-smashingstocks-glyph-smashing-stocks.png"/></div>
+          <span>Configs</span>
+        </div>
+      </li>
+      <li>
+        <a href="https://lucasdbrito.com" target="_blank">
+          <div class="li-content">
+            <div class="navbar-img"><img src="https://img.icons8.com/ios-glyphs/28/ffffff/link--v1.png"/></div>
+            <span>Lucas de Brito</span>
+          </div>
+        </a>
       </li>
     </ul>
   </header> -->
@@ -32,6 +45,9 @@
     <Converter v-if="currentFunctionality === 'converter'" />
     <Wallet v-if="currentFunctionality === 'wallet'"/>
   </main>
+  <footer class="footer">
+    teste footer
+  </footer>
 </template>
 
 <script>
@@ -60,6 +76,7 @@ export default {
   --main-yellow: rgb(209, 195, 0);
   --secondary-yellow: rgb(255, 248, 152);
   --main-dark: rgb(8, 8, 8);
+  --light-dark: rgb(19, 19, 19);
   --secondary-dark: rgb(131, 131, 131);
 }
 
@@ -98,7 +115,8 @@ body {
 }
 
 .main-header:hover {
-  width: 200px;
+  width: 210px;
+  padding-right: 23.5px;
 }
 
 .app-main {
@@ -125,17 +143,23 @@ ul {
   transition: 0.3s;
   color: white;
   width: 190px;
+  padding: 10px 0;
+}
+
+.header-list li .li-content {
   display: flex;
   align-items: center;
-  padding: 10px 0;
+  justify-content: start;
+}
+
+.header-list li a {
+  width: 100%;
+  text-decoration: none;
+  color: white;
 }
 
 .header-list li:first-child {
   margin-bottom: 20px;
-}
-
-.header-list li .navbar-img {
-  width: 65px;
 }
 
 .header-list li:last-child {
@@ -143,7 +167,11 @@ ul {
   position: absolute;
 }
 
-.header-list li img {
+.header-list .li-content .navbar-img {
+  width: 65px;
+}
+
+.header-list .li-content img {
   vertical-align: middle;
 }
 
@@ -179,19 +207,91 @@ ul {
   content: url("https://img.icons8.com/material-sharp/13/00ff00/chevron-up.png");
 }
 
+.footer {
+  height: 300px;
+  background-color: var(--light-dark);
+  margin-top: 15px;
+  clear: both;
+}
+
 @media screen and (max-width: 992px) {
   .main-header {
-    flex-direction: column;
-    align-items: start;
+    padding: 10px;
+    height: 75px;
+    width: 100%;
+    background-color: var(--main-dark);
+    display: flex;
+    flex-direction: row;
+    bottom: 0;
+    top: auto;
+    left: 0;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    transition: .5s;
+    z-index: 100;
+  }
+
+  .main-header:hover {
+    width: 100%;
   }
 
   .main-header img {
     margin: 0 auto;
   }
 
-  .main-header ul {
-    text-align: left;
-    margin-top: 20px;
+  .header-list {
+    margin-top: 0px;
+    text-align: center;
+    position: relative;
+    height: 100%;
+    overflow-x: hidden;
+    display: flex;
+  }
+
+  .header-list li {
+    position: relative;
+    cursor: pointer;
+    transition: 0.3s;
+    color: white;
+    width: 25%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px 0;
+  }
+
+  .header-list li .li-content {
+    justify-content: center;
+  }
+
+  .header-list .li-content span {
+    display: none;
+  }
+
+  .header-list li:first-child {
+    margin-bottom: 0px;
+    display: none;
+  }
+
+  .header-list li:last-child {
+    bottom: none;
+    position: relative;
+  }
+
+  .header-list li .navbar-img {
+    width: 65px;
+  }
+
+
+  .app-main, .footer {
+    width: 100%;
+    margin-left: 0px;
+  }
+
+  .footer {
+    margin: 15px 0px 74px 0px;
   }
 }
 </style>
