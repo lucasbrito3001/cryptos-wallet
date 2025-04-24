@@ -1,5 +1,5 @@
 import axios from 'axios';
-const API_URL = "https://api.lucasdbrito.com/cryptos-converter"
+const API_URL = "https://cryptos-converter.lucasdbrito.com"
 
 const ConverterApi = {
     getCryptos: async function () {
