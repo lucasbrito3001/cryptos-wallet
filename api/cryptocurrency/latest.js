@@ -9,8 +9,6 @@ export async function GET(request) {
 
         const data = await response.json()
 
-        console.log(data)
-
 		return new Response(
 			JSON.stringify({
 				status: 200,
@@ -20,6 +18,7 @@ export async function GET(request) {
 		);
 	} catch (error) {
         console.log(error)
+        
 		return new Response(
 			JSON.stringify({
 				status: 400,
