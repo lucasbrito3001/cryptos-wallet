@@ -1,0 +1,71 @@
+.text-muted {
+    font-weight: 500;
+    color: rgb(134, 134, 134);
+}
+
+.negative-percent {
+    color: rgb(243, 0, 0);
+}
+
+.positive-percent {
+    color: rgb(0, 238, 0);
+}
+
+.negative-percent::before {
+    content: url("https://img.icons8.com/material-sharp/13/ff0000/chevron-down.png");
+}
+
+.positive-percent::before {
+    content: url("https://img.icons8.com/material-sharp/13/00ff00/chevron-up.png");
+}
+
+.t-end {
+    text-align: right;
+}
+
+.t-start {
+    text-align: left;
+}
+
+.t-center {
+    text-align: center;
+}
+
+.m-1 {
+    margin: 8px;
+}
+
+.m-2 {
+    margin: 15px;
+}
+
+.mt-1 {
+    margin-top: 8px;
+}
+
+.mt-2 {
+    margin-top: 15px;
+}
+
+.mb-1 {
+    margin-bottom: 8px;
+}
+
+.mb-2 {
+    margin-bottom: 15px;
+}
+
+.ml-1 {
+    margin-left: 8px;
+}
+
+.ml-2 {
+    margin-left: 15px;
+}
+
+.mr-1 {
+    margin-right: 8px;
+}
+.mr-2 {
+    margin-right: 15px;
+}
