@@ -1,14 +1,12 @@
-const header = {
-	"X-CMC_PRO_API_KEY": process.env.CMKTC_KEY,
-};
-
 export async function GET(request) {
 	try {
 		console.log(process.env.CMKTC_URL);
-        
+
 		let { data } = await fetch(process.env.CMKTC_URL + "cryptocurrency/listings/latest", {
 			method: "GET",
-			headers: header,
+			headers: {
+				"X-CMC_PRO_API_KEY": process.env.CMKTC_KEY,
+			},
 		});
 
 		return new Response(
