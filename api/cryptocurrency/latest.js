@@ -4,6 +4,8 @@ const header = {
 
 export async function GET(request) {
 	try {
+		console.log(process.env.CMKTC_URL);
+        
 		let { data } = await fetch(process.env.CMKTC_URL + "cryptocurrency/listings/latest", {
 			method: "GET",
 			headers: header,
